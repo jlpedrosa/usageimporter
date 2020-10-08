@@ -28,7 +28,7 @@ namespace Resources
             var db = mClient.GetDatabase(StorageConstants.DataBaseName);
             var coll = db.GetCollection<VirtualMachineScaleSet>("vms_scale_set");
             var something = cli.VirtualMachineScaleSets.List(resourceGroup, token);
-        
+           
             await coll.InsertManyAsync(something, null, token);
         }
     }

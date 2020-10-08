@@ -24,7 +24,7 @@ namespace Resources
             this.resourceGroup = resourceGroup;
             this.subscription = subscription;
 
-            SubscriptionCloudCredentials oldAuthCredentials = null;
+            SubscriptionCloudCredentials oldAuthCredentials = null;            
             this.cli = new Microsoft.Azure.Commerce.UsageAggregates.UsageAggregationManagementClient(oldAuthCredentials);
         }
         

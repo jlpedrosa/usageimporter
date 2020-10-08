@@ -5,6 +5,8 @@ using MongoDB.Driver;
 using Azure.Identity;
 using Azure.Core;
 using Resources;
+using Azure.ResourceManager.Network.Models;
+using Azure.ResourceManager.Network;
 
 namespace usageimporter
 {
@@ -12,12 +14,8 @@ namespace usageimporter
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");       
-            var subscriptionId = Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID");
+             var subscriptionId = Environment.GetEnvironmentVariable("AZURE_SUBSCRIPTION_ID");
             var resourceGroup = Environment.GetEnvironmentVariable("AZURE_RESOURCE_GROUP");
-
-            resourceGroup = "MC_jopedros-nop-devel_jopedros-nop-devel_northeurope";            
-            subscriptionId = "0dea505e-f72c-4939-91fb-c5d318d31cbd"; 
 
             IMongoClient cli = new MongoClient();
             var creds = GetCredentials();
@@ -27,10 +25,15 @@ namespace usageimporter
             VMFetcher vmFetch = new VMFetcher(cli, subscriptionId, resourceGroup,  creds);      
             NetworkFetcher netFetcher = new NetworkFetcher(cli, subscriptionId, resourceGroup,  creds);
             //await vmFetch.GetAllVirtualMachines(token);
-            await netFetcher.GetAllVirtualMachines(token);
+            //await netFetcher.GetAllNetworks(token);
+
+            var genericfetecher = new GenericResouceFetcher<VirtualNetwork, NetworkManagementClient>(cli, subscriptionId, resourceGroup, creds);
+            genericfetecher.GetAll(token);
         }
 
-        static TokenCredential GetCredentials() {           
+        static TokenCredential GetCredentials() {     
+             Console.WriteLine("Hello World!");       
+            
            return new InteractiveBrowserCredential();
         }
     }    

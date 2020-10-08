@@ -25,10 +25,11 @@ namespace Resources
             this.cli = new NetworkManagementClient(subscriptionId,  credentials);
         }
         
-        public async Task GetAllVirtualMachines(CancellationToken token) {
+        public async Task GetAllNetworks(CancellationToken token) {
+            
             var db = mClient.GetDatabase(StorageConstants.DataBaseName);
             var coll = db.GetCollection<VirtualNetwork>("vnets");
-            var something = cli.VirtualNetworks.List(resourceGroup, token);
+            var something = cli.VirtualNetworks.List(resourceGroup, token);        
             await coll.InsertManyAsync(something, null, token);
         }
     }
